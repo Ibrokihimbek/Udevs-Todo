@@ -4,12 +4,11 @@ class AppColors {
   static const white = Colors.white;
   static const black = Colors.black;
   static const grey = Colors.grey;
-  static const c_35383F = Color(0xff35383F);
-  static const c_1F222A = Color(0xff1F222A);
-  static const c_181A20 = Color(0xff181A20);
-  static const c_E9F0FF = Color(0xffE9F0FF);
-  static const c_476EBE = Color(0xff476EBE);
-  static const c_FAFAFA = Color(0xffFAFAFA);
-  static const c_F5F5F5 = Color(0xffF5F5F5);
-  static const c_246BFD = Color(0xff246BFD);
+  static const c_5DE61A = Color(0xff5DE61A);
+  static const c_39A801 = Color(0xff39A801);
+  static const c_554E8F = Color(0xff554E8F);
+  static const c_66C81C = Color(0xff66C81C);
+  static const c_5F87E7 = Color(0xff5F87E7);
+  static const c_81C7F5 = Color(0xff81C7F5);
+  static const c_3867D5 = Color(0xff3867D5);
 }

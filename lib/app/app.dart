@@ -26,11 +26,15 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
-      designSize: const Size(428, 926),
+      designSize: const Size(375, 812),
       minTextAdapt: true,
       splitScreenMode: true,
       builder: (BuildContext context, Widget? child) {
-        return const MaterialApp(
+        return MaterialApp(
+          theme: ThemeData(
+            primarySwatch: Colors.blue,
+            fontFamily: 'Rubik',
+          ),
           debugShowCheckedModeBanner: false,
           initialRoute: RouteName.splash,
           onGenerateRoute: AppRoutes.generateRoute,
