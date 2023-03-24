@@ -1,6 +1,5 @@
 class AppImages {
-  static const calendarOnBoarding = 'assets/images/calendar_onboard.png';
-  static const diagramOnBoarding = 'assets/images/diagram_onboard.png';
-  static const successOnBoarding = 'assets/images/success_onboard.png';
-  static const splashLogo = 'assets/images/splash_logo.png';
+  static const noTask = 'assets/images/no_task.png';
+  static const bell = 'assets/images/bell.png';
+  static const logo = 'assets/images/app_logo.png';
 }
