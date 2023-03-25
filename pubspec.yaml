@@ -19,6 +19,8 @@ dependencies:
   sqflite: ^2.2.6
   flutter_svg: ^2.0.4
   zoom_tap_animation: ^1.1.0
+  shared_preferences: ^2.0.20
+  lottie: ^1.4.3
 
 dev_dependencies:
   flutter_test:
@@ -31,6 +33,7 @@ flutter:
   uses-material-design: true
 
   assets:
+    - assets/lotties/
     - assets/images/
     - assets/icons/
     - assets/font/

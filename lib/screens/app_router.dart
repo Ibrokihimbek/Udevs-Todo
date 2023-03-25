@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:udevs_to_do/screens/register/register.dart';
 import 'package:udevs_to_do/screens/splash/splash_page.dart';
+import 'package:udevs_to_do/screens/tab_box/add_task/add_task.dart';
+import 'package:udevs_to_do/screens/tab_box/home/home_page.dart';
 import 'package:udevs_to_do/screens/tab_box/tab_box_page.dart';
+import 'package:udevs_to_do/screens/tab_box/tasks/tasks.dart';
 
 abstract class RouteName {
   static const splash = 'splash';
   static const tabBox = 'tabBox';
-  static const onBoarding = 'on_boarding';
+  static const tasks = 'tasks';
   static const register = 'register';
-  static const logIn = 'log_in';
-  static const welcome = 'welcome';
-  static const main = 'main';
-  static const description = 'description';
-  static const profile = 'profile';
-  static const updateWidget = 'updateWidget';
+  static const addTask = 'addTaska';
+  static const home = 'home';
 }
 
 class AppRoutes {
@@ -20,18 +20,16 @@ class AppRoutes {
     switch (settings.name) {
       case RouteName.splash:
         return MaterialPageRoute(builder: (_) => SplashPage());
-        case RouteName.tabBox:
+      case RouteName.tabBox:
         return MaterialPageRoute(builder: (_) => TabBoxPage());
-      // case RouteName.onBoarding:
-      //   return MaterialPageRoute(builder: (_) => OnboardinPage());
-      // case RouteName.welcome:
-      //   return MaterialPageRoute(builder: (_) => WelcomePage());
-      // case RouteName.logIn:
-      //   return MaterialPageRoute(builder: (_) => LoginPage());
-      // case RouteName.register:
-      //   return MaterialPageRoute(builder: (_) => RegisterPage());
-      // case RouteName.main:
-      //   return MaterialPageRoute(builder: (_) => MainPage());
+      case RouteName.register:
+        return MaterialPageRoute(builder: (_) => RegisterPage());
+      case RouteName.tasks:
+        return MaterialPageRoute(builder: (_) => TaskPage());
+      case RouteName.home:
+        return MaterialPageRoute(builder: (_) => HomePage());
+      case RouteName.addTask:
+        return MaterialPageRoute(builder: (_) => AddTask());
       // case RouteName.description:
       //   final args = settings.arguments as Map<String, dynamic>;
       //   return MaterialPageRoute(
@@ -39,16 +37,7 @@ class AppRoutes {
       //       model: args['toDoModel'],
       //     ),
       //   );
-      // case RouteName.profile:
-      //   return MaterialPageRoute(builder: (_) => ProfilePage());
-      // case RouteName.updateWidget:
-      //   final args = settings.arguments as Map<String, dynamic>;
-      //   return MaterialPageRoute(
-      //     builder: (_) => UpdateWidget(
-      //       todo: args['toDoModel'],
-      //       onDeleted: args['onDeleted'],
-      //     ),
-      //   );
+
       default:
         return MaterialPageRoute(builder: (_) => Scaffold());
     }

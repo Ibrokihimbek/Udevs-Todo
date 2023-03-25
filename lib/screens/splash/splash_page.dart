@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:udevs_to_do/data/storage_repository/storage_repository.dart';
 import 'package:udevs_to_do/screens/app_router.dart';
 import 'package:udevs_to_do/utils/app_colors/app_colors.dart';
 import 'package:udevs_to_do/utils/app_images/app_images.dart';
@@ -31,7 +32,13 @@ class SplashPage extends StatelessWidget {
               SizedBox(height: 171.h),
               GlobalButton(
                 onTap: () {
-                  Navigator.pushReplacementNamed(context, RouteName.tabBox);
+                  bool firstTime =
+                      StorageRepository.getBool("first_time", defValue: false);
+                  if (firstTime == false) {
+                    Navigator.pushReplacementNamed(context, RouteName.register);
+                  } else {
+                    Navigator.pushReplacementNamed(context, RouteName.tabBox);
+                  }
                 },
                 colorShadow: AppColors.c_66C81C,
                 gradientFirst: AppColors.c_5DE61A,

@@ -8,4 +8,7 @@ class AppIcons {
   static const iconPresentation = 'assets/icons/presentation.svg';
   static const iconShoppingBasket = 'assets/icons/shopping_basket.svg';
   static const iconTask = 'assets/icons/task.svg';
+  static const iconSuccess = 'assets/icons/success.svg';
+  static const iconCircular = 'assets/icons/circular.svg';
+
 }
