@@ -14,6 +14,8 @@ class AppColors {
   static const c_3867D5 = Color(0xff3867D5);
   static const c_6894EE = Color(0xff6894EE);
   static const c_5D97E5 = Color(0xff5D97E5);
+  static const c_8B87B3 = Color(0xff8B87B3);
+  static const c_BBBBBB = Color(0xffBBBBBB);
 
   /// To Do categories color
 

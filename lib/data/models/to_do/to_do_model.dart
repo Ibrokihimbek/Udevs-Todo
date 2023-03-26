@@ -6,10 +6,12 @@ class TodoFields {
   static String categoryId = "categoryId";
   static String priority = "priority";
   static String isCompleted = "isCompleted";
+  static String createdAt = 'createdAt';
 }
 
 class TodoModel {
   final int? id;
+  final String createdAt;
   final String title;
   final String description;
   final String date;
@@ -20,6 +22,7 @@ class TodoModel {
 
   TodoModel({
     this.id,
+    required this.createdAt,
     required this.title,
     required this.description,
     required this.date,
@@ -31,6 +34,7 @@ class TodoModel {
   factory TodoModel.fromJson(Map<String, dynamic> json) {
     return TodoModel(
       id: json['id'] ?? -1,
+      createdAt: json['createdAt'] ?? '',
       title: json['title'] ?? '',
       description: json['description'] ?? '',
       date: json['date'] ?? '',
@@ -42,6 +46,7 @@ class TodoModel {
 
   Map<String, dynamic> toJson() {
     return {
+      'createdAt': createdAt,
       'title': title,
       'description': description,
       'date': date,
@@ -52,6 +57,7 @@ class TodoModel {
   }
 
   TodoModel copyWith({
+    String? createdAt,
     int? id,
     String? title,
     String? description,
@@ -61,6 +67,7 @@ class TodoModel {
     int? isCompleted,
   }) =>
       TodoModel(
+        createdAt: createdAt ?? this.createdAt,
         id: id ?? this.id,
         title: title ?? this.title,
         description: description ?? this.description,

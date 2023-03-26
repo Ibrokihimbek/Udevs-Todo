@@ -39,7 +39,8 @@ class LocalDatabase {
             ${TodoFields.date} $textType,
             ${TodoFields.categoryId} $intType,
             ${TodoFields.priority} $intType,
-            ${TodoFields.isCompleted} $boolType
+            ${TodoFields.isCompleted} $boolType,
+            ${TodoFields.createdAt} $textType
             )
             ''');
       },
@@ -74,7 +75,8 @@ class LocalDatabase {
         TodoFields.title,
         TodoFields.description,
         TodoFields.categoryId,
-        TodoFields.date
+        TodoFields.date,
+        TodoFields.createdAt,
       ],
     );
 
@@ -117,7 +119,8 @@ class LocalDatabase {
           TodoFields.date,
           TodoFields.priority,
           TodoFields.categoryId,
-          TodoFields.isCompleted
+          TodoFields.isCompleted,
+          TodoFields.createdAt,
         ],
       );
 
