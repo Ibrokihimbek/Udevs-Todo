@@ -5,7 +5,9 @@ import 'package:udevs_to_do/data/repository/to_do_repo.dart';
 import 'package:udevs_to_do/services/get_it/get_it.dart';
 
 class GetToDoCubit extends Cubit<GetToDoState> {
-  GetToDoCubit() : super(GetToDoInitial());
+  GetToDoCubit() : super(GetToDoInitial()) {
+    fetchAllTasks();
+  }
 
   List<TodoModel> cachedUserTasks = [];
 

@@ -20,9 +20,9 @@ class ToDoRepository {
   /// Get all task
   Future<List<TodoModel>> getAllTasks() => LocalDatabase.getAllTasks();
 
-  /// Get task by title
-  Future<List<TodoModel>> getTaskByTitle({String title = ''}) =>
-      LocalDatabase.getTaskByTitle(title: title);
+  // /// Get task by title
+  // Future<List<TodoModel>> getTaskByTitle({String title = ''}) =>
+  //     LocalDatabase.getTaskByTitle(title: title);
 
   /// Get task by categoryId
   Future<List<TodoModel>> getTaskByCategoryId(int id) =>

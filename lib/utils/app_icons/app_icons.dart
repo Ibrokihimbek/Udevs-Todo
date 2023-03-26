@@ -10,5 +10,8 @@ class AppIcons {
   static const iconTask = 'assets/icons/task.svg';
   static const iconSuccess = 'assets/icons/success.svg';
   static const iconCircular = 'assets/icons/circular.svg';
+  static const iconClock = 'assets/icons/clock.svg';
+  static const iconEdit = 'assets/icons/update.svg';
+  static const iconDelete = 'assets/icons/delete.svg';
 
 }

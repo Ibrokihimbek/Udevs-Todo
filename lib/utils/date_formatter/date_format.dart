@@ -7,13 +7,10 @@ class TimeUtils {
     return format;
   }
 
-  static String formatToWeek(DateTime dateTime) {
-    final format = DateFormat.E().format(dateTime);
+  static String formatToHour(DateTime dateTime) {
+    final format = DateFormat.jm().format(dateTime);
     return format;
   }
 
-  static String formatDate(DateTime dateTime) {
-    final format = DateFormat.yMMMMd().format(dateTime).toString();
-    return format;
-  }
+  
 }

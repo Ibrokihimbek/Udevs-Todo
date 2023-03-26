@@ -2,13 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:udevs_to_do/cubit/tab_box/tab_box_cubit.dart';
+import 'package:udevs_to_do/screens/tab_box/add_task/add_task.dart';
 import 'package:udevs_to_do/screens/tab_box/home/home_page.dart';
 import 'package:udevs_to_do/screens/tab_box/tasks/tasks.dart';
 import 'package:udevs_to_do/utils/app_colors/app_colors.dart';
 import 'package:udevs_to_do/utils/app_icons/app_icons.dart';
 import 'package:zoom_tap_animation/zoom_tap_animation.dart';
-
-import 'add_task/widgets/add_task_widget.dart';
 
 class TabBoxPage extends StatefulWidget {
   const TabBoxPage({super.key});
@@ -36,11 +35,12 @@ class _TabBoxPageState extends State<TabBoxPage> {
           floatingActionButton: ZoomTapAnimation(
             onTap: () {
               showModalBottomSheet(
+                isScrollControlled: true,
                 backgroundColor: Colors.transparent,
                 elevation: 0,
                 context: context,
                 builder: (BuildContext context) {
-                  return AddTaskWidget();
+                  return AddTask();
                 },
               );
             },
@@ -80,7 +80,7 @@ class _TabBoxPageState extends State<TabBoxPage> {
                         ? AppColors.c_5F87E7
                         : const Color(0xffBEBEBE),
                   ),
-                  label: "Profile",
+                  label: "Tasks",
                 ),
               ],
             ),

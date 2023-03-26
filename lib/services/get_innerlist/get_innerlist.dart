@@ -6,14 +6,14 @@ class GetInnerList {
     Set taskDate = {};
 
     for (var task in tasks) {
-      taskDate.add(task.createdAt);
+      taskDate.add(task.createdAt.substring(0,10));
     }
 
     List<InnerList> tasksByCreateAdd = [];
     for (var createdAt in taskDate) {
       List<TodoModel> userTasks = [];
       for (TodoModel task in tasks) {
-        if (createdAt == task.createdAt) {
+        if (createdAt == task.createdAt.substring(0,10)) {
           userTasks.add(task);
         }
       }

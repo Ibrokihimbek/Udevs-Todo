@@ -38,7 +38,6 @@ class LocalDatabase {
             ${TodoFields.description} $textType, 
             ${TodoFields.date} $textType,
             ${TodoFields.categoryId} $intType,
-            ${TodoFields.priority} $intType,
             ${TodoFields.isCompleted} $boolType,
             ${TodoFields.createdAt} $textType
             )
@@ -51,6 +50,7 @@ class LocalDatabase {
   static Future<TodoModel> insertToDatabase(TodoModel newTodo) async {
     var database = await getInstance.getDb();
     int id = await database.insert(tableName, newTodo.toJson());
+    debugPrint("TASK ADDED");
     return newTodo.copyWith(id: id);
   }
 
@@ -62,22 +62,16 @@ class LocalDatabase {
       where: 'id = ?',
       whereArgs: [updatedTask.id],
     );
-    debugPrint("HAMMASI YAXSHI");
+    debugPrint("TASK UPDATED");
     return updatedTask.copyWith(id: id);
   }
 
   static Future<List<TodoModel>> getAllTasks() async {
     var database = await getInstance.getDb();
+    var orderBy = "${TodoFields.createdAt} DESC";
     var listOfTodos = await database.query(
       tableName,
-      columns: [
-        TodoFields.id,
-        TodoFields.title,
-        TodoFields.description,
-        TodoFields.categoryId,
-        TodoFields.date,
-        TodoFields.createdAt,
-      ],
+      orderBy: orderBy,
     );
 
     var list = listOfTodos.map((e) => TodoModel.fromJson(e)).toList();
@@ -117,7 +111,6 @@ class LocalDatabase {
           TodoFields.title,
           TodoFields.description,
           TodoFields.date,
-          TodoFields.priority,
           TodoFields.categoryId,
           TodoFields.isCompleted,
           TodoFields.createdAt,
@@ -162,6 +155,7 @@ class LocalDatabase {
 
   static Future<int> deleteTaskById(int id) async {
     var database = await getInstance.getDb();
+    debugPrint("TASK DELETED");
     return await database.delete(
       tableName,
       where: 'id = ?',

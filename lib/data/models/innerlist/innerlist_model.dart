@@ -4,5 +4,8 @@ class InnerList {
   final String craetedAt;
   final List<TodoModel> taks;
 
-  InnerList({required this.craetedAt, required this.taks});
+  InnerList({
+    required this.craetedAt,
+    required this.taks,
+  });
 }

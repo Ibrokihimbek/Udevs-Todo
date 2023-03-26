@@ -12,4 +12,3 @@ Future<bool?> getMyToast({required String message}) {
     fontSize: 16.0,
   );
 }
-

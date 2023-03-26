@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 class AppColors {
-  static const white = Colors.white;
-  static const black = Colors.black;
-  static const grey = Colors.grey;
+  static const white = Color(0xFFFFFFFF);
+  static const black = Color(0xFF000000);
+  static const grey = Color(0xFF9E9E9E);
   static const c_5DE61A = Color(0xff5DE61A);
   static const c_39A801 = Color(0xff39A801);
   static const c_554E8F = Color(0xff554E8F);
@@ -16,6 +16,12 @@ class AppColors {
   static const c_5D97E5 = Color(0xff5D97E5);
   static const c_8B87B3 = Color(0xff8B87B3);
   static const c_BBBBBB = Color(0xffBBBBBB);
+  static const c_686868 = Color(0xff686868);
+  static const c_A1A1A1 = Color(0xffA1A1A1);
+  static const c_373737 = Color(0xff373737);
+  static const c_CFCFCF = Color(0xffCFCFCF);
+  static const c_1ED102 = Color(0xff1ED102);
+  static const c_8E8E8E = Color(0xff8E8E8E);
 
   /// To Do categories color
 
