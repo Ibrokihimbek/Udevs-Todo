@@ -1,5 +1,5 @@
 import 'package:udevs_to_do/data/local_db/local_database.dart';
-import 'package:udevs_to_do/data/models/to_do_model.dart';
+import 'package:udevs_to_do/data/models/to_do/to_do_model.dart';
 
 class ToDoRepository {
   static final ToDoRepository _instance = ToDoRepository._();

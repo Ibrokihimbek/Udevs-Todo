@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
-import 'package:udevs_to_do/data/models/to_do_model.dart';
+import 'package:udevs_to_do/data/models/to_do/to_do_model.dart';
 
 class LocalDatabase {
   static String tableName = "todoTable";

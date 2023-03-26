@@ -8,6 +8,8 @@ import 'package:udevs_to_do/utils/app_colors/app_colors.dart';
 import 'package:udevs_to_do/utils/app_icons/app_icons.dart';
 import 'package:zoom_tap_animation/zoom_tap_animation.dart';
 
+import 'add_task/widgets/add_task_widget.dart';
+
 class TabBoxPage extends StatefulWidget {
   const TabBoxPage({super.key});
 
@@ -32,7 +34,16 @@ class _TabBoxPageState extends State<TabBoxPage> {
         var index = context.watch<TabBoxCubit>().activePageIndex;
         return Scaffold(
           floatingActionButton: ZoomTapAnimation(
-            onTap: () {},
+            onTap: () {
+              showModalBottomSheet(
+                backgroundColor: Colors.transparent,
+                elevation: 0,
+                context: context,
+                builder: (BuildContext context) {
+                  return AddTaskWidget();
+                },
+              );
+            },
             child: SvgPicture.asset(AppIcons.iconAdd),
           ),
           floatingActionButtonLocation:
