@@ -4,12 +4,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:udevs_to_do/bloc/to_do/to_do_bloc_bloc.dart';
 import 'package:udevs_to_do/bloc/to_do/to_do_bloc_event.dart';
-import 'package:udevs_to_do/cubit/get_to_do/get_to_do_cubit.dart';
-import 'package:udevs_to_do/cubit/get_to_do/get_to_do_state.dart';
+import 'package:udevs_to_do/bloc/to_do/to_do_bloc_state.dart';
 import 'package:udevs_to_do/data/models/category/category_model.dart';
 import 'package:udevs_to_do/data/models/innerlist/innerlist_model.dart';
 import 'package:udevs_to_do/data/models/to_do/to_do_model.dart';
 import 'package:udevs_to_do/screens/tab_box/home/widgets/no_task_widget.dart';
+import 'package:udevs_to_do/screens/tab_box/home/widgets/update_task.dart';
 import 'package:udevs_to_do/services/get_innerlist/get_innerlist.dart';
 import 'package:udevs_to_do/utils/app_colors/app_colors.dart';
 import 'package:udevs_to_do/utils/app_icons/app_icons.dart';
@@ -27,16 +27,16 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<GetToDoCubit, GetToDoState>(
+    return BlocBuilder<TodoBloc, ToDoState>(
       builder: (context, state) {
-        if (state is GetToDoInLoading) {
+        if (state is LoadInProgressGet) {
           return const Center(
             child: CircularProgressIndicator(),
           );
-        } else if (state is GetToDoInSuccess) {
-          List<InnerList> innerList = GetInnerList.getInnerList(state.tsks);
+        } else if (state is LoadInSuccessGet) {
+          List<InnerList> innerList = GetInnerList.getInnerList(state.tasks);
           return Scaffold(
-            appBar: GlobalAppBar(numberOfTasks: state.tsks.length),
+            appBar: GlobalAppBar(numberOfTasks: state.tasks.length),
             body: Padding(
               padding: EdgeInsets.symmetric(horizontal: 18.w).r,
               child: ListView(
@@ -65,7 +65,7 @@ class _HomePageState extends State<HomePage> {
                                   CategoryToDo.cotegories[task.categoryId - 1];
                               return
 
-                                  /// EIDGETGA CHIQAZISH KERAK
+                                  /// WIDGETGA CHIQAZISH KERAK
 
                                   Container(
                                 margin: EdgeInsets.only(top: 12.h).r,
@@ -95,9 +95,9 @@ class _HomePageState extends State<HomePage> {
                                     SizedBox(width: 11.w),
                                     GestureDetector(
                                       onTap: () {
-                                        BlocProvider.of<ToDosBloc>(context).add(
-                                          UpdateToDo(
-                                            toDo: TodoModel(
+                                        BlocProvider.of<TodoBloc>(context).add(
+                                          UpdateTask(
+                                            task: TodoModel(
                                               id: task.id,
                                               createdAt: task.createdAt,
                                               title: task.title,
@@ -110,8 +110,8 @@ class _HomePageState extends State<HomePage> {
                                           ),
                                         );
 
-                                        BlocProvider.of<GetToDoCubit>(context)
-                                            .fetchAllTasks();
+                                        BlocProvider.of<TodoBloc>(context)
+                                            .add(FetchAllTasks());
                                       },
                                       child: SvgPicture.asset(
                                         task.isCompleted == 0
@@ -153,15 +153,31 @@ class _HomePageState extends State<HomePage> {
                                           .copyWith(fontSize: 16.sp),
                                     ),
                                     const Spacer(),
-                                    SvgPicture.asset(AppIcons.iconEdit),
+                                    GestureDetector(
+                                      onTap: () {
+                                        showModalBottomSheet(
+                                          isScrollControlled: true,
+                                          backgroundColor: Colors.transparent,
+                                          elevation: 0,
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return UpdateTaskWidget(
+                                              task: task,
+                                            );
+                                          },
+                                        );
+                                      },
+                                      child:
+                                          SvgPicture.asset(AppIcons.iconEdit),
+                                    ),
                                     SizedBox(width: 9.w),
                                     GestureDetector(
                                       onTap: () {
-                                        BlocProvider.of<ToDosBloc>(context).add(
-                                          DeleteToDo(toDoId: task.id!),
+                                        BlocProvider.of<TodoBloc>(context).add(
+                                          DeleteTask(id: task.id!),
                                         );
-                                        BlocProvider.of<GetToDoCubit>(context)
-                                            .fetchAllTasks();
+                                        BlocProvider.of<TodoBloc>(context)
+                                            .add(FetchAllTasks());
                                       },
                                       child:
                                           SvgPicture.asset(AppIcons.iconDelete),

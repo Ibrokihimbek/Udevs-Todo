@@ -1,41 +1,43 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:udevs_to_do/bloc/to_do/to_do_bloc_event.dart';
 import 'package:udevs_to_do/bloc/to_do/to_do_bloc_state.dart';
+import 'package:udevs_to_do/data/models/to_do/to_do_model.dart';
 import 'package:udevs_to_do/data/repository/to_do_repo.dart';
 import 'package:udevs_to_do/services/get_it/get_it.dart';
 
-class ToDosBloc extends Bloc<ToDoEvent, ToDoState> {
-  ToDosBloc()
-      : super(const ToDoState(
-          tasks: [],
-          statusText: "",
-          status: ToDoStatus.pure,
-        )) {
-    on<AddToDo>(_addToDo);
-    on<UpdateToDo>(_updateToDo);
-    on<DeleteToDo>(_deleteToDo);
+class TodoBloc extends Bloc<ToDoEvent, ToDoState> {
+  TodoBloc() : super(InitialStateGet()){
+    on<UpdateTask>(updateTodo);
+    on<DeleteTask>(deleteTodo);
+    on<FetchAllTasks>(fetchAllTodos);
+    on<AddToDo>(addTodo);
   }
 
-  _addToDo(AddToDo event, Emitter<ToDoState> emit) async {
-    emit(state.copyWith(status: ToDoStatus.loading));
+   updateTodo(UpdateTask event, Emitter<ToDoState> emit) async {
+    emit(LoadInProgressUpdate());
+    await getIt.get<ToDoRepository>().updateTask(event.task);
+    emit(LoadInSuccessUpdate());
+  }
 
-    var newToDo = await getIt<ToDoRepository>().insertTask(event.toDo);
-    if (newToDo.id != null) {
-      emit(state.copyWith(status: ToDoStatus.taskAdded));
+  fetchAllTodos(FetchAllTasks event, Emitter<ToDoState> emit) async {
+    emit(LoadInProgressGet());
+    List<TodoModel> todos = await getIt.get<ToDoRepository>().getAllTasks();
+    if (todos.isNotEmpty) {
+      emit(LoadInSuccessGet(tasks: todos));
+    } else {
+      emit(LoadInFailureGet(errorText: 'Hali Malumot yoq'));
     }
   }
 
-  _updateToDo(UpdateToDo event, Emitter<ToDoState> emit) async {
-    emit(state.copyWith(status: ToDoStatus.loading));
-    await getIt<ToDoRepository>().updateTask(event.toDo);
-    emit(state.copyWith(status: ToDoStatus.taskUpdated));
+  deleteTodo(DeleteTask event, Emitter<ToDoState> emit) async{
+    emit(LoadInProgressDelete());
+    await getIt.get<ToDoRepository>().deleteTask(event.id);
+    emit(LoadInSuccessDelete());
   }
 
-  _deleteToDo(DeleteToDo event, Emitter<ToDoState> emit) async {
-    emit(state.copyWith(status: ToDoStatus.loading));
-    var deletedId = await getIt<ToDoRepository>().deleteTask(event.toDoId);
-    if (deletedId != -1) {
-      emit(state.copyWith(status: ToDoStatus.taskDeleted));
-    }
+  addTodo(AddToDo event, Emitter<ToDoState> emit)async{
+    emit(LoadInProgressAdd());
+    await getIt.get<ToDoRepository>().insertTask(event.task);
+    emit(LoadInSuccessAdd());
   }
 }

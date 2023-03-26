@@ -1,36 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:udevs_to_do/bloc/to_do/to_do_bloc_bloc.dart';
 import 'package:udevs_to_do/bloc/to_do/to_do_bloc_event.dart';
 import 'package:udevs_to_do/bloc/to_do/to_do_bloc_state.dart';
-// import 'package:udevs_to_do/cubit/get_to_do/get_to_do_cubit.dart';
-import 'package:udevs_to_do/data/models/category/category_model.dart';
 import 'package:udevs_to_do/data/models/to_do/to_do_model.dart';
 import 'package:udevs_to_do/screens/tab_box/add_task/widgets/add_category_widget.dart';
 import 'package:udevs_to_do/screens/tab_box/add_task/widgets/divider_widget.dart';
-import 'package:udevs_to_do/services/get_it/get_it.dart';
 import 'package:udevs_to_do/utils/app_colors/app_colors.dart';
-import 'package:udevs_to_do/utils/app_icons/app_icons.dart';
 import 'package:udevs_to_do/utils/app_text_style/text_style.dart';
 import 'package:udevs_to_do/utils/date_formatter/date_format.dart';
 import 'package:udevs_to_do/utils/toast/flutter_toast.dart';
 import 'package:udevs_to_do/widgets/global_button.dart';
 import 'package:udevs_to_do/widgets/input_decoration_widget.dart';
 
-// ignore: must_be_immutable
-class AddTask extends StatefulWidget {
-  const AddTask({super.key});
+class UpdateTaskWidget extends StatefulWidget {
+  final TodoModel task;
+  const UpdateTaskWidget({super.key, required this.task});
 
   @override
-  State<AddTask> createState() => _AddTaskState();
+  State<UpdateTaskWidget> createState() => _UpdateTaskWidgetState();
 }
 
-class _AddTaskState extends State<AddTask> {
-  TextEditingController addTitleController = TextEditingController();
+class _UpdateTaskWidgetState extends State<UpdateTaskWidget> {
+  TextEditingController updateTitleController = TextEditingController();
 
-  TextEditingController addDescriptioneController = TextEditingController();
+  TextEditingController updateDescriptioneController = TextEditingController();
 
   final formKey = GlobalKey<FormState>();
 
@@ -39,6 +34,12 @@ class _AddTaskState extends State<AddTask> {
   TimeOfDay? taskTime;
   int categoryId = -1;
   int currentIndex = -1;
+
+  @override
+  void initState() {
+    updateDescriptioneController.text = widget.task.description;
+    updateTitleController.text = widget.task.title;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,20 +57,20 @@ class _AddTaskState extends State<AddTask> {
               ),
               color: AppColors.white,
             ),
-            height: 475.h,
+            height: 450.h,
             child: Form(
               key: formKey,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  SizedBox(height: 12.h),
                   Padding(
                     padding: EdgeInsets.symmetric(
                       horizontal: 26.w,
+                      vertical: 16.h,
                     ).r,
                     child: Text(
-                      'Add Task',
+                      'Update Task',
                       style: fontRubikW500(appcolor: AppColors.black),
                     ),
                   ),
@@ -79,7 +80,7 @@ class _AddTaskState extends State<AddTask> {
                       vertical: 16.h,
                     ).r,
                     child: TextFormField(
-                      controller: addTitleController,
+                      controller: updateTitleController,
                       textInputAction: TextInputAction.newline,
                       maxLength: 30,
                       validator: (value) {
@@ -95,7 +96,7 @@ class _AddTaskState extends State<AddTask> {
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 26.w).r,
                     child: TextFormField(
-                      controller: addDescriptioneController,
+                      controller: updateDescriptioneController,
                       textInputAction: TextInputAction.newline,
                       maxLines: 2,
                       validator: (value) {
@@ -108,20 +109,7 @@ class _AddTaskState extends State<AddTask> {
                       decoration: getInputDecoration(label: 'Description'),
                     ),
                   ),
-                  SizedBox(height: 12.h),
-                  const DividerWidget(),
-                  SizedBox(height: 12.h),
-                  AddCategoryWidget(
-                      onTap: (value) {
-                        categoryId = value;
-                        setState(() {
-                          currentIndex = value - 1;
-                        });
-                      },
-                      currentIndex: currentIndex),
-                  SizedBox(height: 12.h),
-                  const DividerWidget(),
-                  SizedBox(height: 12.h),
+                  SizedBox(height: 16.h),
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 26.w).r,
                     child: Row(
@@ -149,20 +137,23 @@ class _AddTaskState extends State<AddTask> {
                           },
                           gradientFirst: AppColors.c_7EB6FF,
                           gradientSekond: AppColors.c_5F87E7,
-                          buttonName: 'Add time',
+                          buttonName: 'Update time',
                           height: 30,
-                          width: 100,
+                          width: 110,
                           sizeFont: 16,
                           colorShadow: AppColors.c_6894EE,
                         ),
                         SizedBox(width: 12.w),
                         Text(
                           TimeUtils.formatToWeekMonthDay(
-                              taskDay ?? DateTime.now()),
+                            taskDay ?? DateTime.parse(widget.task.date),
+                          ),
                         ),
                         SizedBox(width: 12.w),
                         Text(
-                          TimeUtils.formatToHour(taskDay ?? DateTime.now()),
+                          TimeUtils.formatToHour(
+                            taskDay ?? DateTime.parse(widget.task.date),
+                          ),
                         ),
                       ],
                     ),
@@ -171,42 +162,32 @@ class _AddTaskState extends State<AddTask> {
                   Padding(
                     padding: EdgeInsets.symmetric(
                       horizontal: 26.w,
-                      vertical: 12.h,
+                      vertical: 16.h,
                     ).r,
                     child: GlobalButton(
                       onTap: () {
-                        if (formKey.currentState!.validate()) {
-                          formKey.currentState?.save();
-                          if (addDescriptioneController.text.isNotEmpty &&
-                              addDescriptioneController.text.isNotEmpty &&
-                              taskDay != null &&
-                              categoryId != -1) {
-                            FocusManager.instance.primaryFocus?.unfocus();
-                            BlocProvider.of<TodoBloc>(context).add(
-                              AddToDo(
-                                task: TodoModel(
-                                  createdAt: DateTime.now().toString(),
-                                  title: addTitleController.text,
-                                  description: addDescriptioneController.text,
-                                  date: taskDay.toString(),
-                                  categoryId: categoryId,
-                                  isCompleted: 0,
-                                ),
-                              ),
-                            );
-                            BlocProvider.of<TodoBloc>(context)
-                                .add(FetchAllTasks());
-                            Navigator.pop(context);
-                          } else {
-                            getMyToast(
-                                message:
-                                    'Complete the other sections below as well');
-                          }
-                        }
+                        formKey.currentState?.save();
+
+                        FocusManager.instance.primaryFocus?.unfocus();
+                        BlocProvider.of<TodoBloc>(context).add(
+                          UpdateTask(
+                            task: TodoModel(
+                              id: widget.task.id,
+                              createdAt: DateTime.now().toString(),
+                              title: updateTitleController.text,
+                              description: updateDescriptioneController.text,
+                              date: (taskDay ?? widget.task.date).toString(),
+                              categoryId: widget.task.categoryId,
+                              isCompleted: 0,
+                            ),
+                          ),
+                        );
+                        BlocProvider.of<TodoBloc>(context).add(FetchAllTasks());
+                        Navigator.pop(context);
                       },
                       gradientFirst: AppColors.c_7EB6FF,
                       gradientSekond: AppColors.c_5F87E7,
-                      buttonName: 'Add task',
+                      buttonName: 'Update task',
                       height: 53,
                       width: double.infinity,
                       sizeFont: 18,
