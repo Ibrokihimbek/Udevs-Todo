@@ -5,12 +5,10 @@ import 'package:udevs_to_do/bloc/to_do/to_do_bloc_bloc.dart';
 import 'package:udevs_to_do/bloc/to_do/to_do_bloc_event.dart';
 import 'package:udevs_to_do/bloc/to_do/to_do_bloc_state.dart';
 import 'package:udevs_to_do/data/models/to_do/to_do_model.dart';
-import 'package:udevs_to_do/screens/tab_box/add_task/widgets/add_category_widget.dart';
-import 'package:udevs_to_do/screens/tab_box/add_task/widgets/divider_widget.dart';
+import 'package:udevs_to_do/screens/tab_box/add_task/widgets/add_task_button.dart';
 import 'package:udevs_to_do/utils/app_colors/app_colors.dart';
 import 'package:udevs_to_do/utils/app_text_style/text_style.dart';
 import 'package:udevs_to_do/utils/date_formatter/date_format.dart';
-import 'package:udevs_to_do/utils/toast/flutter_toast.dart';
 import 'package:udevs_to_do/widgets/global_button.dart';
 import 'package:udevs_to_do/widgets/input_decoration_widget.dart';
 
@@ -24,19 +22,16 @@ class UpdateTaskWidget extends StatefulWidget {
 
 class _UpdateTaskWidgetState extends State<UpdateTaskWidget> {
   TextEditingController updateTitleController = TextEditingController();
-
   TextEditingController updateDescriptioneController = TextEditingController();
-
   final formKey = GlobalKey<FormState>();
-
   DateTime? taskDay;
-
   TimeOfDay? taskTime;
   int categoryId = -1;
   int currentIndex = -1;
 
   @override
   void initState() {
+    super.initState();
     updateDescriptioneController.text = widget.task.description;
     updateTitleController.text = widget.task.title;
   }
@@ -159,12 +154,7 @@ class _UpdateTaskWidgetState extends State<UpdateTaskWidget> {
                     ),
                   ),
                   const Spacer(),
-                  Padding(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 26.w,
-                      vertical: 16.h,
-                    ).r,
-                    child: GlobalButton(
+                  AddTaskButton(
                       onTap: () {
                         formKey.currentState?.save();
 
@@ -185,15 +175,7 @@ class _UpdateTaskWidgetState extends State<UpdateTaskWidget> {
                         BlocProvider.of<TodoBloc>(context).add(FetchAllTasks());
                         Navigator.pop(context);
                       },
-                      gradientFirst: AppColors.c_7EB6FF,
-                      gradientSekond: AppColors.c_5F87E7,
-                      buttonName: 'Update task',
-                      height: 53,
-                      width: double.infinity,
-                      sizeFont: 18,
-                      colorShadow: AppColors.c_6894EE,
-                    ),
-                  ),
+                      nameButton: 'Update task')
                 ],
               ),
             ),

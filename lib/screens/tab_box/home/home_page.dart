@@ -8,23 +8,21 @@ import 'package:udevs_to_do/bloc/to_do/to_do_bloc_state.dart';
 import 'package:udevs_to_do/data/models/category/category_model.dart';
 import 'package:udevs_to_do/data/models/innerlist/innerlist_model.dart';
 import 'package:udevs_to_do/data/models/to_do/to_do_model.dart';
+import 'package:udevs_to_do/screens/tab_box/home/widgets/line_color.dart';
 import 'package:udevs_to_do/screens/tab_box/home/widgets/no_task_widget.dart';
 import 'package:udevs_to_do/screens/tab_box/home/widgets/update_task.dart';
+import 'package:udevs_to_do/screens/task_by_category/widgets/time_items.dart';
 import 'package:udevs_to_do/services/get_innerlist/get_innerlist.dart';
+import 'package:udevs_to_do/services/get_today_task/today_tasks_lenfth.dart';
 import 'package:udevs_to_do/utils/app_colors/app_colors.dart';
 import 'package:udevs_to_do/utils/app_icons/app_icons.dart';
 import 'package:udevs_to_do/utils/app_text_style/text_style.dart';
 import 'package:udevs_to_do/utils/date_formatter/date_format.dart';
 import 'package:udevs_to_do/widgets/global_appbar.dart';
 
-class HomePage extends StatefulWidget {
+class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
-  @override
-  State<HomePage> createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<TodoBloc, ToDoState>(
@@ -34,9 +32,10 @@ class _HomePageState extends State<HomePage> {
             child: CircularProgressIndicator(),
           );
         } else if (state is LoadInSuccessGet) {
+          int numberOfTasks = GetTodayTasksLength.getTasksLength(state.tasks);
           List<InnerList> innerList = GetInnerList.getInnerList(state.tasks);
           return Scaffold(
-            appBar: GlobalAppBar(numberOfTasks: state.tasks.length),
+            appBar: GlobalAppBar(numberOfTasks: numberOfTasks),
             body: Padding(
               padding: EdgeInsets.symmetric(horizontal: 18.w).r,
               child: ListView(
@@ -63,11 +62,7 @@ class _HomePageState extends State<HomePage> {
                               TodoModel task = userTask.taks[index];
                               CategoryToDo category =
                                   CategoryToDo.cotegories[task.categoryId - 1];
-                              return
-
-                                  /// WIDGETGA CHIQAZISH KERAK
-
-                                  Container(
+                              return Container(
                                 margin: EdgeInsets.only(top: 12.h).r,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(5.r),
@@ -84,13 +79,8 @@ class _HomePageState extends State<HomePage> {
                                 height: 55.h,
                                 child: Row(
                                   children: [
-                                    Container(
-                                      decoration: BoxDecoration(
-                                        borderRadius:
-                                            BorderRadius.circular(5.r),
-                                        color: category.colorBackground,
-                                      ),
-                                      width: 4.w,
+                                    LineColorWidget(
+                                      lineColor: category.colorBackground,
                                     ),
                                     SizedBox(width: 11.w),
                                     GestureDetector(
@@ -121,30 +111,7 @@ class _HomePageState extends State<HomePage> {
                                       ),
                                     ),
                                     SizedBox(width: 11.w),
-                                    Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          TimeUtils.formatToWeekMonthDay(
-                                            DateTime.parse(task.date),
-                                          ),
-                                          style: fontRubikW400(
-                                                  appcolor: AppColors.c_A1A1A1)
-                                              .copyWith(fontSize: 11.sp),
-                                        ),
-                                        Text(
-                                          TimeUtils.formatToHour(
-                                            DateTime.parse(task.date),
-                                          ),
-                                          style: fontRubikW400(
-                                                  appcolor: AppColors.c_A1A1A1)
-                                              .copyWith(fontSize: 11.sp),
-                                        ),
-                                      ],
-                                    ),
+                                    TimeItemsWidget(time: task.date),
                                     SizedBox(width: 11.w),
                                     Text(
                                       task.title,

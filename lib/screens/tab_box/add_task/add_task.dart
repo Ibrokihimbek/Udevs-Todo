@@ -1,25 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:udevs_to_do/bloc/to_do/to_do_bloc_bloc.dart';
 import 'package:udevs_to_do/bloc/to_do/to_do_bloc_event.dart';
 import 'package:udevs_to_do/bloc/to_do/to_do_bloc_state.dart';
-// import 'package:udevs_to_do/cubit/get_to_do/get_to_do_cubit.dart';
-import 'package:udevs_to_do/data/models/category/category_model.dart';
 import 'package:udevs_to_do/data/models/to_do/to_do_model.dart';
 import 'package:udevs_to_do/screens/tab_box/add_task/widgets/add_category_widget.dart';
+import 'package:udevs_to_do/screens/tab_box/add_task/widgets/add_task_button.dart';
 import 'package:udevs_to_do/screens/tab_box/add_task/widgets/divider_widget.dart';
-import 'package:udevs_to_do/services/get_it/get_it.dart';
+import 'package:udevs_to_do/screens/tab_box/add_task/widgets/text_widget.dart';
 import 'package:udevs_to_do/utils/app_colors/app_colors.dart';
-import 'package:udevs_to_do/utils/app_icons/app_icons.dart';
 import 'package:udevs_to_do/utils/app_text_style/text_style.dart';
 import 'package:udevs_to_do/utils/date_formatter/date_format.dart';
 import 'package:udevs_to_do/utils/toast/flutter_toast.dart';
 import 'package:udevs_to_do/widgets/global_button.dart';
 import 'package:udevs_to_do/widgets/input_decoration_widget.dart';
 
-// ignore: must_be_immutable
 class AddTask extends StatefulWidget {
   const AddTask({super.key});
 
@@ -29,13 +25,9 @@ class AddTask extends StatefulWidget {
 
 class _AddTaskState extends State<AddTask> {
   TextEditingController addTitleController = TextEditingController();
-
   TextEditingController addDescriptioneController = TextEditingController();
-
   final formKey = GlobalKey<FormState>();
-
   DateTime? taskDay;
-
   TimeOfDay? taskTime;
   int categoryId = -1;
   int currentIndex = -1;
@@ -64,15 +56,7 @@ class _AddTaskState extends State<AddTask> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   SizedBox(height: 12.h),
-                  Padding(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 26.w,
-                    ).r,
-                    child: Text(
-                      'Add Task',
-                      style: fontRubikW500(appcolor: AppColors.black),
-                    ),
-                  ),
+                  const TextWidget(),
                   Padding(
                     padding: EdgeInsets.symmetric(
                       horizontal: 26.w,
@@ -168,12 +152,7 @@ class _AddTaskState extends State<AddTask> {
                     ),
                   ),
                   const Spacer(),
-                  Padding(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 26.w,
-                      vertical: 12.h,
-                    ).r,
-                    child: GlobalButton(
+                  AddTaskButton(
                       onTap: () {
                         if (formKey.currentState!.validate()) {
                           formKey.currentState?.save();
@@ -204,15 +183,7 @@ class _AddTaskState extends State<AddTask> {
                           }
                         }
                       },
-                      gradientFirst: AppColors.c_7EB6FF,
-                      gradientSekond: AppColors.c_5F87E7,
-                      buttonName: 'Add task',
-                      height: 53,
-                      width: double.infinity,
-                      sizeFont: 18,
-                      colorShadow: AppColors.c_6894EE,
-                    ),
-                  ),
+                      nameButton: 'Add task'),
                 ],
               ),
             ),
