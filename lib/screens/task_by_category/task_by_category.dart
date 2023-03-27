@@ -3,12 +3,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:udevs_to_do/data/models/category/category_model.dart';
 import 'package:udevs_to_do/data/models/innerlist/innerlist_model.dart';
 import 'package:udevs_to_do/data/models/to_do/to_do_model.dart';
+import 'package:udevs_to_do/screens/app_router.dart';
 import 'package:udevs_to_do/screens/task_by_category/widgets/time_items.dart';
 import 'package:udevs_to_do/services/get_innerlist/get_innerlist.dart';
 import 'package:udevs_to_do/utils/app_colors/app_colors.dart';
 import 'package:udevs_to_do/utils/app_text_style/text_style.dart';
 import 'package:udevs_to_do/utils/date_formatter/date_format.dart';
 import 'package:udevs_to_do/widgets/category_appbar.dart';
+import 'package:zoom_tap_animation/zoom_tap_animation.dart';
 
 class TaskByCategory extends StatelessWidget {
   final List<TodoModel> tasks;
@@ -45,40 +47,46 @@ class TaskByCategory extends StatelessWidget {
                         TodoModel task = userTask.taks[index];
                         CategoryToDo category =
                             CategoryToDo.cotegories[task.categoryId - 1];
-                        return Container(
-                          margin: EdgeInsets.only(top: 12.h).r,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5.r),
-                            color: AppColors.white,
-                            boxShadow: [
-                              BoxShadow(
-                                color: AppColors.black.withOpacity(0.1),
-                                blurRadius: 4,
-                                offset: const Offset(0, 3),
-                              ),
-                            ],
-                          ),
-                          width: double.infinity,
-                          height: 55.h,
-                          child: Row(
-                            children: [
-                              Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(5.r),
-                                  color: category.colorBackground,
+                        return ZoomTapAnimation(
+                          onTap: () {
+                            Navigator.pushNamed(context, RouteName.taskDetail,
+                                arguments: task);
+                          },
+                          child: Container(
+                            margin: EdgeInsets.only(top: 12.h).r,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5.r),
+                              color: AppColors.white,
+                              boxShadow: [
+                                BoxShadow(
+                                  color: AppColors.black.withOpacity(0.1),
+                                  blurRadius: 4,
+                                  offset: const Offset(0, 3),
                                 ),
-                                width: 4.w,
-                              ),
-                              SizedBox(width: 11.w),
-                              TimeItemsWidget(time: task.date),
-                              SizedBox(width: 11.w),
-                              Text(
-                                task.title,
-                                style:
-                                    fontRubikW500(appcolor: AppColors.c_554E8F)
-                                        .copyWith(fontSize: 16.sp),
-                              ),
-                            ],
+                              ],
+                            ),
+                            width: double.infinity,
+                            height: 55.h,
+                            child: Row(
+                              children: [
+                                Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(5.r),
+                                    color: category.colorBackground,
+                                  ),
+                                  width: 4.w,
+                                ),
+                                SizedBox(width: 11.w),
+                                TimeItemsWidget(time: task.date),
+                                SizedBox(width: 11.w),
+                                Text(
+                                  task.title,
+                                  style: fontRubikW500(
+                                          appcolor: AppColors.c_554E8F)
+                                      .copyWith(fontSize: 16.sp),
+                                ),
+                              ],
+                            ),
                           ),
                         );
                       },

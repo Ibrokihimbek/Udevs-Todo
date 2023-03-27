@@ -12,4 +12,16 @@ class GetTodayTasksLength {
     }
     return todayTasksLength.length;
   }
+
+  static List<TodoModel> getTaskFirst(List<TodoModel> tasks) {
+    List<TodoModel> todayTasksLength = [];
+    for (var element in tasks) {
+      // ignore: unrelated_type_equality_checks
+      if (element.date.substring(0, 10) ==
+          DateTime.now().toString().substring(0, 10)) {
+        todayTasksLength.add(element);
+      }
+    }
+    return todayTasksLength;
+  }
 }

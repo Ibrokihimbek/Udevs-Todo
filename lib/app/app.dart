@@ -3,9 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:udevs_to_do/bloc/to_do/to_do_bloc_bloc.dart';
 import 'package:udevs_to_do/bloc/to_do/to_do_bloc_event.dart';
-// import 'package:udevs_to_do/cubit/get_to_do/get_to_do_cubit.dart';
 import 'package:udevs_to_do/cubit/tab_box/tab_box_cubit.dart';
 import 'package:udevs_to_do/screens/app_router.dart';
+import 'package:udevs_to_do/services/local_notification/local_notification_service.dart';
 
 class App extends StatelessWidget {
   const App({super.key});
@@ -36,6 +36,9 @@ class MyApp extends StatelessWidget {
       minTextAdapt: true,
       splitScreenMode: true,
       builder: (BuildContext context, Widget? child) {
+        final GlobalKey<NavigatorState> navigatorKey =
+            GlobalKey<NavigatorState>();
+        LocalNotificationService.localNotificationService.init(navigatorKey);
         return MaterialApp(
           theme: ThemeData(
             primarySwatch: Colors.blue,
@@ -45,6 +48,7 @@ class MyApp extends StatelessWidget {
           initialRoute: RouteName.splash,
           onGenerateRoute: AppRoutes.generateRoute,
           title: 'My tasks',
+          navigatorKey: navigatorKey,
         );
       },
     );

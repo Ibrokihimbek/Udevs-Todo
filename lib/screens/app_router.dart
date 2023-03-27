@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:udevs_to_do/data/models/to_do/to_do_model.dart';
 import 'package:udevs_to_do/screens/register/register.dart';
 import 'package:udevs_to_do/screens/splash/splash_page.dart';
 import 'package:udevs_to_do/screens/tab_box/add_task/add_task.dart';
@@ -6,6 +7,7 @@ import 'package:udevs_to_do/screens/tab_box/home/home_page.dart';
 import 'package:udevs_to_do/screens/tab_box/tab_box_page.dart';
 import 'package:udevs_to_do/screens/tab_box/tasks/tasks.dart';
 import 'package:udevs_to_do/screens/task_by_category/task_by_category.dart';
+import 'package:udevs_to_do/screens/task_detail/task_detail.dart';
 
 abstract class RouteName {
   static const splash = 'splash';
@@ -15,6 +17,7 @@ abstract class RouteName {
   static const addTask = 'addTaska';
   static const home = 'home';
   static const taskByCategory = 'taskByCategory';
+  static const taskDetail = 'taskDetail';
 }
 
 class AppRoutes {
@@ -32,6 +35,12 @@ class AppRoutes {
         return MaterialPageRoute(builder: (_) => HomePage());
       case RouteName.addTask:
         return MaterialPageRoute(builder: (_) => AddTask());
+      case RouteName.taskDetail:
+        return MaterialPageRoute(
+          builder: (_) => TaskDetailPage(
+            task: settings.arguments as TodoModel,
+          ),
+        );
       case RouteName.taskByCategory:
         final args = settings.arguments as Map<String, dynamic>;
         return MaterialPageRoute(
